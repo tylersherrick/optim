@@ -738,28 +738,7 @@ body {
   color: var(--muted);
   margin: 0 0 28px;
 }
-.google-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    border-color 0.15s;
-}
-.google-btn:hover {
-  background: var(--surface-2);
-  border-color: var(--border);
-}
+
 .login-back {
   display: block;
   margin: 24px auto 0;

@@ -6,18 +6,19 @@ export async function createUser({
   password,
   name,
   username = null,
-  googleId = null,
   avatarUrl = null,
 }) {
   const passwordHash = password ? await bcrypt.hash(password, 10) : null;
+
   const {
     rows: [user],
   } = await db.query(
-    `INSERT INTO users (google_id, username, email, name, password_hash, avatar_url)
-     VALUES ($1, $2, $3, $4, $5, $6)
+    `INSERT INTO users (username, email, name, password_hash, avatar_url)
+     VALUES ($1, $2, $3, $4, $5)
      RETURNING *`,
-    [googleId, username, email, name, passwordHash, avatarUrl],
+    [username, email, name, passwordHash, avatarUrl],
   );
+
   return user;
 }
 
@@ -46,12 +47,5 @@ export async function getUserByEmail(email) {
   const {
     rows: [user],
   } = await db.query("SELECT * FROM users WHERE email = $1", [email]);
-  return user;
-}
-
-export async function getUserByGoogleId(googleId) {
-  const {
-    rows: [user],
-  } = await db.query("SELECT * FROM users WHERE google_id = $1", [googleId]);
   return user;
 }

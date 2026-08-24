@@ -22,7 +22,6 @@ async function seed() {
     password: "password123",
     name: "Tyler",
     username: "tyler",
-    googleId: "google-tyler",
   });
 
   const sarah = await createUser({
@@ -30,7 +29,6 @@ async function seed() {
     password: "password123",
     name: "Sarah",
     username: "sarah",
-    googleId: "google-sarah",
   });
 
   const mike = await createUser({
@@ -38,7 +36,6 @@ async function seed() {
     password: "password123",
     name: "Mike",
     username: "mike",
-    googleId: "google-mike",
   });
 
   const workspace = await createWorkspace(

@@ -25,18 +25,10 @@ export function registerUser({ username, password, name, email }) {
   });
 }
 
-/** POST /users/login — username/password login */
+/** POST /users/login — username or email/password login */
 export function loginUser({ username, password }) {
   return request("/users/login", {
     method: "POST",
     body: JSON.stringify({ username, password }),
-  });
-}
-
-/** POST /users/google — sign in (or up) with a Google ID token */
-export function loginWithGoogleCredential(credential) {
-  return request("/users/google", {
-    method: "POST",
-    body: JSON.stringify({ credential }),
   });
 }

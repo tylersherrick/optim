@@ -1,14 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  registerUser,
-  loginUser,
-  loginWithGoogleCredential,
-} from "../api/auth.js";
+import { registerUser, loginUser } from "../api/auth.js";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("optim_token"));
+
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("optim_user");
     return saved ? JSON.parse(saved) : null;
@@ -30,9 +27,8 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (fields) => applySession(await registerUser(fields));
+
   const login = async (fields) => applySession(await loginUser(fields));
-  const loginWithGoogle = async (credential) =>
-    applySession(await loginWithGoogleCredential(credential));
 
   const logout = () => {
     setToken(null);
@@ -40,9 +36,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ token, user, register, login, loginWithGoogle, logout }}
-    >
+    <AuthContext.Provider value={{ token, user, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

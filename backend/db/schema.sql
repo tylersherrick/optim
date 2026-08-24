@@ -16,7 +16,6 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    google_id TEXT UNIQUE,
     username TEXT UNIQUE,
     email TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,

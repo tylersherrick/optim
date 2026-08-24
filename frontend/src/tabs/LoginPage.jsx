@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
 import Logo from "../components/Logo.jsx";
 import { useAuth } from "../auth/AuthContext.jsx";
 
 export default function LoginPage({ onBack }) {
-  const { login, register, loginWithGoogle } = useAuth();
+  const { login, register } = useAuth();
   const [mode, setMode] = useState("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +16,7 @@ export default function LoginPage({ onBack }) {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
+
     try {
       if (mode === "login") {
         await login({ username, password });
@@ -30,15 +30,6 @@ export default function LoginPage({ onBack }) {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    setError(null);
-    try {
-      await loginWithGoogle(credentialResponse.credential);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
   return (
     <div className="login-page">
       <div className="login-page-logo">
@@ -48,23 +39,16 @@ export default function LoginPage({ onBack }) {
       <div className="login-card">
         <h1>Welcome to Optim</h1>
         <p>To get started, please sign in</p>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => setError("Google sign-in failed")}
-          />
-        </div>
-
-        <div className="login-divider">or</div>
 
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Username or email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+
           {mode === "register" && (
             <>
               <input
@@ -72,15 +56,18 @@ export default function LoginPage({ onBack }) {
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               />
               <input
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </>
           )}
+
           <input
             type="password"
             placeholder="Password"
@@ -88,7 +75,9 @@ export default function LoginPage({ onBack }) {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           {error && <p className="modal-error">{error}</p>}
+
           <button className="btn-primary" type="submit" disabled={submitting}>
             {submitting
               ? "Please wait…"

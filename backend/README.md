@@ -155,17 +155,11 @@ PostgreSQL
 Optim supports two independent ways to reach the same account:
 
 - **Local** — `POST /auth/signup` / `POST /auth/login` with a username/password, hashed with bcrypt.
-- **Google** — the frontend obtains an access token via `useGoogleLogin()`, then sends only that token to `POST /auth/google`. The backend verifies it directly against Google's own userinfo endpoint server-side — the client's claimed profile data is never trusted directly. If the resulting email matches an existing local account, the Google identity is linked onto that same row instead of creating a duplicate user.
+- **Username / Email + Password** — users register with a unique username, email, and password. Passwords are securely hashed with bcrypt before being stored. Users can sign in using either their username or email.
 
-Either path ends the same way: the backend issues its own JWT (`{ sub: userId }`), which the frontend stores and attaches to every subsequent request as `Authorization: Bearer <token>`.
+After successful registration or login, the backend issues its own JWT, which the frontend stores and attaches to subsequent authenticated requests as `Authorization: Bearer <token>`.
 
 ### Database Schema (core tables)
-
-```
-users
-  id, username, password, name, email, google_id, avatar_url
-  (username+password is optional, google_id is optional --
-   a CHECK constraint requires at least one login path to exist)
 
 workspaces
   id, name, owner_id -> users, created_at
