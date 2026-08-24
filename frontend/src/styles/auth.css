@@ -1,0 +1,78 @@
+.login-page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.login-page-logo {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+}
+.login-card {
+  width: 340px;
+  text-align: center;
+}
+.login-card h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+.login-card p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 28px;
+}
+
+.login-back {
+  display: block;
+  margin: 24px auto 0;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.login-page-footer {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+.login-form input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--card);
+  color: var(--text);
+}
+.login-divider {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 16px 0;
+}
+.login-toggle {
+  background: transparent;
+  border: none;
+  color: var(--blue-gray);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+}

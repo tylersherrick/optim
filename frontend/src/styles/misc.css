@@ -1,0 +1,190 @@
+.landing-cta .btn-primary {
+  margin: 0 auto;
+}
+
+.sidebar-logo-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.members-tab {
+  max-width: 760px;
+}
+
+.invite-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.invite-form input {
+  flex: 1;
+  max-width: 360px;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.invite-form input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(147, 197, 145, 0.16);
+}
+
+.invite-form .btn-primary {
+  flex-shrink: 0;
+}
+
+.invite-error {
+  color: #b5483f;
+  font-size: 13px;
+  margin: -10px 0 16px;
+}
+
+.member-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(52, 49, 61, 0.05);
+}
+
+.member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--blue-gray);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.member-info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.member-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-email {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.role-badge.admin {
+  background: var(--green-light);
+  color: var(--on-track);
+}
+
+.role-badge.member {
+  background: #eef0f1;
+  color: var(--muted);
+}
+
+.remove-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  background: #f3e4e2;
+  border-color: #d8b5b1;
+  color: #b5483f;
+}
+
+.remove-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .members-tab {
+    width: 100%;
+    max-width: none;
+  }
+
+  .invite-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .invite-form input {
+    width: 100%;
+    max-width: none;
+  }
+
+  .invite-form .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .member-row {
+    min-width: 0;
+    padding: 11px 12px;
+    gap: 9px;
+  }
+
+  .member-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .role-badge {
+    display: none;
+  }
+
+  .remove-btn {
+    padding: 5px 8px;
+  }
+}

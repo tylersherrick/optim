@@ -1,0 +1,58 @@
+:root {
+  --dark: #4a5765;
+  --dark-hover: #5b6874;
+  --green: #93c591;
+  --green-deep: #8fb87a;
+  --green-light: #e6f2e2;
+  --blue-gray: #819aa3;
+  --plum: #504d63;
+  --bg: #f4f2ef;
+  --card: #ffffff;
+  --border: #e3e1de;
+  --text: #34313d;
+  --muted: #78838d;
+  --amber-bg: #fbe3c4;
+  --amber-text: #9a6a1f;
+  --on-track: #3f5e3a;
+  --cta: #504d63;
+}
+
+[data-theme="dark"] {
+  --dark: #3a4048;
+  --dark-hover: #454c55;
+  --green: #93c591;
+  --green-deep: #8fb87a;
+  --green-light: #2d3b2a;
+  --blue-gray: #819aa3;
+  --plum: #504d63;
+  --bg: #1e2124;
+  --card: #2a2d31;
+  --surface-2: #33373c;
+  --border: #3f4448;
+  --text: #e4e2dd;
+  --muted: #9aa0a6;
+  --amber-bg: #4a3a24;
+  --amber-text: #e0b876;
+  --on-track-text: #bfe0b8;
+  --cta-text: #bfe0b8;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
