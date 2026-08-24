@@ -1,10 +1,30 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
 .task-modal {
   background: var(--card);
   width: min(800px, 95vw);
-  max-height: 90vh;
+  height: calc(100vh - 40px);
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
   border-radius: 14px;
   padding: 28px;
+  box-sizing: border-box;
 }
 
 .task-modal-header {
@@ -31,7 +51,7 @@
 .task-details-section label {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   margin-bottom: 18px;
   font-size: 14px;
   font-weight: 600;
@@ -131,7 +151,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 30;
+  z-index: 1100;
   padding: 20px;
 }
 
@@ -202,8 +222,20 @@
   cursor: not-allowed;
 }
 
-.task-details-section label {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
+body:has(.modal-overlay.open) {
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 20px;
+  }
+
+  .task-modal {
+    width: 100%;
+    height: calc(100vh - 40px);
+    max-height: calc(100vh - 40px);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
 }
