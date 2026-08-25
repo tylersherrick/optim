@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useAuth } from "../auth/AuthContext.jsx";
 import TaskDetailsModal from "../components/TaskDetailModal.jsx";
 import {
   getProjectBoard,
+  getProject,
   getColumns,
   getTasks,
   createTask,
@@ -198,6 +200,7 @@ export default function Kanban({ projectId }) {
   const { token, user } = useAuth();
 
   const [board, setBoard] = useState(null);
+  const [project, setProject] = useState(null);
   const [columns, setColumns] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
@@ -248,6 +251,7 @@ export default function Kanban({ projectId }) {
       .then(({ board }) =>
         Promise.all([
           board,
+          getProject(projectId, token),
           getColumns(board.id, token),
           getTasks(projectId, token),
           getProjectMembers(projectId, token),
@@ -256,11 +260,13 @@ export default function Kanban({ projectId }) {
       .then(
         ([
           loadedBoard,
+          projectResponse,
           columnsResponse,
           tasksResponse,
           membersResponse,
         ]) => {
           setBoard(loadedBoard);
+          setProject(projectResponse.project ?? projectResponse);
           setColumns(columnsResponse.columns);
           setTasks(tasksResponse.tasks);
           setMembers(membersResponse.members);
@@ -425,23 +431,44 @@ export default function Kanban({ projectId }) {
       (task) => task.id === taskId,
     );
 
+    const targetColumn = columns.find(
+      (column) => String(column.id) === String(columnId),
+    );
+
+    const colName = targetColumn?.name;
+    const shouldUnassign = [
+      "in review",
+      "done",
+    ].includes(colName?.trim().toLowerCase());
+
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
         task.id === taskId
           ? {
               ...task,
               column_id: columnId,
+              ...(shouldUnassign ? { assignee_id: null } : {}),
             }
           : task,
       ),
     );
 
     try {
-      const { task: updatedTask } = await moveTask(
+      let { task: updatedTask } = await moveTask(
         taskId,
         columnId,
         token,
       );
+
+      if (shouldUnassign) {
+        const unassignedResponse = await assignTask(
+          taskId,
+          null,
+          token,
+        );
+
+        updatedTask = unassignedResponse.task;
+      }
 
       setTasks((currentTasks) =>
         currentTasks.map((task) =>
@@ -459,13 +486,11 @@ export default function Kanban({ projectId }) {
 
       flash(taskId);
 
-      const colName = columns.find(
-        (column) => column.id === columnId,
-      )?.name;
-
       if (movingTask && colName) {
         showToast(
-          `${movingTask.title} moved to ${colName}`,
+          `${movingTask.title} moved to ${colName}${
+            shouldUnassign ? " and returned to the task pool" : ""
+          }`,
         );
       }
     } catch (err) {

@@ -38,6 +38,9 @@ export const removeMember = (workspaceId, userId, token) =>
     method: "DELETE",
   });
 
+export const getProject = (projectId, token) =>
+  request(`/projects/${projectId}`, { token });
+
 export const getProjectBoard = (projectId, token) =>
   request(`/projects/${projectId}/board`, { token });
 

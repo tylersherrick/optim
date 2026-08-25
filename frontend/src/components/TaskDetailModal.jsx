@@ -300,7 +300,7 @@ export default function TaskDetailsModal({
     setActivity(newestFirst(activityRes.activity || []));
   };
 
-  const handleStatusChange = async (value) => {
+    const handleStatusChange = async (value) => {
     const columnId = Number(value);
 
     if (!columnId || columnId === Number(task.column_id)) {
@@ -311,18 +311,40 @@ export default function TaskDetailsModal({
       setMoving(true);
       setError("");
 
-      const { task: updatedTask } = await moveTask(
+      let { task: updatedTask } = await moveTask(
         task.id,
         columnId,
         token,
       );
 
+      const targetColumn = columns.find(
+        (column) => Number(column.id) === columnId,
+      );
+
+      const shouldUnassign =
+        targetColumn &&
+        ["in review", "done"].includes(
+          targetColumn.name.trim().toLowerCase(),
+        );
+
+      if (shouldUnassign) {
+        const unassignedResponse = await assignTask(
+          task.id,
+          null,
+          token,
+        );
+
+        updatedTask = unassignedResponse.task;
+      }
+
       setStatus(updatedTask.column_id);
+      setAssignee(updatedTask.assignee_id ?? "");
       onTaskUpdated(updatedTask);
       await refreshActivity();
     } catch (err) {
       setError(err.message);
       setStatus(task.column_id || "");
+      setAssignee(task.assignee_id ?? "");
     } finally {
       setMoving(false);
     }
