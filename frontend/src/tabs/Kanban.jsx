@@ -994,7 +994,7 @@ export default function Kanban({ projectId }) {
       <div className="kanban-main">
         <div className="main-header">
           <h1>
-            {board?.name ?? "Kanban board"}
+            {project?.name ?? board?.name ?? "Kanban board"}
           </h1>
 
           <button
