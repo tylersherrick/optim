@@ -354,13 +354,18 @@
     overflow: hidden;
   }
 
-  .kanban .kcol {
-    display: none;
+ .kanban .kcol {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    margin: 0;
+    margin: 0 0 8px;
     overflow: hidden;
+  }
+
+  .kanban .kcol:not(.mobile-active) > *:not(.kcol-header) {
+    display: none;
   }
 
   .kanban .kcol.mobile-active {
@@ -410,6 +415,43 @@
   .kcol h4 {
     font-size: 12px;
   }
+
+  .kcol-actions button:nth-child(1),
+  .kcol-actions button:nth-child(2) {
+    display: none;
+  }
+
+  .mobile-column-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #f2f4f5;
+    color: #5f6c7a;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .kanban .kcol:not(.mobile-active) {
+    min-height: 0;
+    height: auto;
+  }
+
+  .kanban-empty-column {
+    padding: 4px 6px 6px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .kanban .kcol.mobile-active:has(.kanban-empty-column) {
+    min-height: 0;
+    height: auto;
+  }
+
 }
 
 @media (min-width: 601px) {
@@ -423,5 +465,9 @@
 
   .mobile-menu {
     display: contents;
+  }
+
+  .mobile-column-count {
+    display: none;
   }
 }

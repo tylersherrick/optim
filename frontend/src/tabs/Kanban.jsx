@@ -283,21 +283,7 @@ export default function Kanban({ projectId }) {
   useEffect(() => {
     if (!columns.length) {
       setMobileColumnId("");
-      return;
     }
-
-    setMobileColumnId((current) => {
-      if (
-        columns.some(
-          (column) =>
-            String(column.id) === String(current),
-        )
-      ) {
-        return current;
-      }
-
-      return columns[0].id;
-    });
   }, [columns]);
 
   useEffect(() => {
@@ -1192,40 +1178,35 @@ export default function Kanban({ projectId }) {
                 </div>
               )}
 
-            <div className="kanban">
-              {columns
-                .filter((column) => {
-                  if (!showingAllStatuses) {
-                    return (
-                      String(column.id) ===
-                      String(statusFilter)
-                    );
-                  }
-
-                  return tasksForColumn(column.id).length > 0;
-                })
-                .map((column) => {
-                  const index = columns.findIndex(
-                    (item) => item.id === column.id,
-                  );
+              <div className="kanban">
+                {columns.map((column, index) => {
+                  const columnTasks = tasksForColumn(column.id);
+                  const isMobileExpanded =
+                    String(mobileColumnId) === String(column.id);
 
                   return (
                     <div
                       className={`kcol ${
-                        showingAllStatuses ||
                         String(mobileColumnId) === String(column.id)
                           ? "mobile-active"
                           : ""
                       }`}
                       key={column.id}
+                      onClick={() => {
+                        if (window.innerWidth <= 600) {
+                          setMobileColumnId((current) =>
+                            String(current) === String(column.id)
+                              ? ""
+                              : String(column.id),
+                          );
+                          return;
+                        }
+                      }}
                       onDragOver={(event) =>
                         event.preventDefault()
                       }
                       onDrop={(event) =>
-                        handleDrop(
-                          event,
-                          column.id,
-                        )
+                        handleDrop(event, column.id)
                       }
                     >
                       <div className="kcol-header">
@@ -1261,15 +1242,19 @@ export default function Kanban({ projectId }) {
                         ) : (
                           <h4
                             onClick={() => {
-                              setEditingColId(
-                                column.id,
-                              );
-                              setEditingColName(
-                                column.name,
-                              );
+                              if (window.innerWidth <= 600) {
+                                setMobileColumnId(String(column.id));
+                                return;
+                              }
+
+                              setEditingColId(column.id);
+                              setEditingColName(column.name);
                             }}
                           >
                             {column.name}
+                            <span className="mobile-column-count">
+                              {tasksForColumn(column.id).length}
+                            </span>
                           </h4>
                         )}
 
@@ -1313,6 +1298,12 @@ export default function Kanban({ projectId }) {
                           </button>
                         </div>
                       </div>
+
+                      {tasksForColumn(column.id).length === 0 && (
+                        <div className="kanban-empty-column">
+                          No tasks with this status.
+                        </div>
+                      )}
 
                       {tasksForColumn(
                         column.id,
@@ -1458,16 +1449,16 @@ export default function Kanban({ projectId }) {
                           </div>
                         </div>
                       ) : (
-                        <button
-                          className="add-task-btn"
-                          onClick={() =>
-                            setAddingTaskCol(
-                              column.id,
-                            )
-                          }
-                        >
-                          + Add task
-                        </button>
+                        column.name.trim().toLowerCase() === "to do" && (
+                          <button
+                            className="add-task-btn"
+                            onClick={() =>
+                              setAddingTaskCol(column.id)
+                            }
+                          >
+                            + Add task
+                          </button>
+                        )
                       )}
                     </div>
                   );
